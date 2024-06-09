@@ -1,5 +1,6 @@
 import json
 import requests
+from requests.exceptions import ConnectTimeout
 
 
 def fetch_countries_data(fields):
@@ -11,18 +12,23 @@ def fetch_countries_data(fields):
 
     print(f"\n Please wait. Loading countries data ....")
 
-    # fetch the data from the API
-    response = requests.get(url)
+    try:
+        # fetch the data from the API
+        response = requests.get(url, timeout=40)
 
-    # check if the response is successful
-    if response.status_code != 200:
-        print(f"Error fetching data. Status code: {response.status_code}")
+        # check if the response is successful
+        if response.status_code != 200:
+            print(f"Error fetching data. Status code: {response.status_code}")
+            return None
+        else:
+            countries_data = response.json()
+
+            # save the country data in the file data.json
+            with open('data.json', 'w') as file:
+                json.dump(countries_data, file, indent=4)
+            print("\nCountries data saved in file: data.json")
+            return countries_data
+
+    except ConnectTimeout:
+        print("The request timed out. Please check your network connection and try again.")
         return None
-    else:
-        countries_data = response.json()
-
-        # save the country data in the file data.json
-        with open('data.json', 'w') as file:
-            json.dump(countries_data, file, indent=4)
-        print("\nCountries data saved in file: data.json")
-        return countries_data

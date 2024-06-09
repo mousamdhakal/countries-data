@@ -1,7 +1,7 @@
 import json
 
 
-def process_country_data():
+def process_country_data(properties):
     with open('data.json', 'r') as file:
         countries_data = json.load(file)
 
@@ -15,9 +15,6 @@ def process_country_data():
 
         # Initialize an empty dictionary for the country info
         country_info = {}
-
-        # List of properties we want to extract
-        properties = ["name", "area", "capital", "region", "population"]
 
         # Try to extract each property and add it to the country info
         for prop in properties:

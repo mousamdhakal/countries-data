@@ -8,7 +8,7 @@ def main():
 
     # if countries data is fetched successfully, process the data
     if countries_data:
-        countries_dict = process_data.process_country_data()
+        countries_dict = process_data.process_country_data(fields)
         print("\nCountries data processed successfully.")
 
         # print the countries data in a readable format
